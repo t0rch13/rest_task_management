@@ -6,6 +6,7 @@ const TaskSchema = new mongoose.Schema(
     status: String,
     deadline: Date,
     completed_at: Date,
+    icons: [String], 
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"

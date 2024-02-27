@@ -31,6 +31,25 @@ $(document).ready(function() {
         }
     });
 
+     // Function to handle icon selection
+    $('#selectIconsBtn').click(function() {
+        // Get the selected icons
+        var selectedIcons = $('.icon.selected').toArray().map(icon => $(icon).data('icon'));
+
+        // Update the hidden input fields with selected icons
+        $('#selectedIcon1').val(selectedIcons[0] || '');
+        $('#selectedIcon2').val(selectedIcons[1] || '');
+        $('#selectedIcon3').val(selectedIcons[2] || '');
+
+        // Close the modal
+        $('#iconModal').modal('hide');
+    });
+
+    // Function to toggle icon selection
+    $('.icon').click(function() {
+        $(this).toggleClass('selected');
+    });
+
     // Handle form submission
     $('#addTaskForm').submit(function(event) {
         // Combine date and time inputs into one timestamp

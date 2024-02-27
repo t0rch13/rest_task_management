@@ -5,7 +5,7 @@ const { authenticate } = require('../middleware/authenticate.js');
 const router = express.Router();
 
 // Index route
-router.get('/', authenticate, controller.index);
+router.get('/', controller.index);
 
 // Add task route
 router.post('/', authenticate, controller.add);

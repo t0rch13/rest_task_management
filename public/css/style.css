@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to bottom, #1a7a46, #3baf6f);
+    background: linear-gradient(to bottom, #0e4f2b, #1a7a46, #3baf6f);
     font-family: "Josefin Sans", sans-serif;
     font-size: 23px;
     margin: 0;
@@ -35,7 +35,7 @@ input[type="email"]:focus {
 }
 
 .todos li {
-    background: #3baf6f;
+    background: #1a7a46;
     color: #fff;
 }
 
@@ -48,7 +48,7 @@ input[type="email"]:focus {
 }
 
 .btn:hover {
-    background: #3baf6f;
+    background: #1a7a46;
     color: #fff;
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -58,7 +58,7 @@ input[type="email"]:focus {
 
 /* Navbar Styles */
 .navbar {
-    background-color: #3baf6f; /* Navbar background color */
+    background-color: #1a7a46; /* Navbar background color */
 }
 
 .navbar-brand {
@@ -85,7 +85,7 @@ input[type="email"]:focus {
         
 .login-btn {
     background-color: #fff;
-    color: #3baf6f;
+    color: #1a7a46;
     border: none;
     padding: 10px;
     width: 100%;
@@ -95,13 +95,13 @@ input[type="email"]:focus {
 }
 
 .login-btn:hover {
-    background-color: #3baf6f;
+    background-color: #1a7a46;
     color: #fff;
 }
 
 .register-btn {
     background-color: #fff;
-    color: #3baf6f;
+    color: #1a7a46;
     border: none;
     padding: 10px;
     width: 100%;
@@ -111,13 +111,13 @@ input[type="email"]:focus {
 }
 
 .register-btn:hover {
-    background-color: #3baf6f;
+    background-color: #1a7a46;
     color: #fff;
 }
 
 .addTask-btn {
     background-color: #fff;
-    color: #3baf6f;
+    color: #1a7a46;
     border: none;
     padding: 10px;
     width: 100%;
@@ -127,7 +127,7 @@ input[type="email"]:focus {
 }
 
 .addTask-btn:hover {
-    background-color: #3baf6f;
+    background-color: #1a7a46;
     color: #fff;
 }
 

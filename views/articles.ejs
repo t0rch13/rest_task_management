@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('layouts/head'); -%> 
+    <title>Time Management Articles</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        .article-item img {
+            border-radius: 10px; /* Rounded edges for images */
+        }
+        .article-link {
+            color: #007bff; /* Light blue color for link text */
+        }
+        .article-content {
+            color: white; /* White color for article content */
+        }
+        .article-link:hover {
+            color: yellow; /* Yellow color for link text on hover */
+        }
+    </style>
+</head>
+<body>
+    <%- include('layouts/navbar'); -%> 
+
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Articles about <%= keyword %> for the last month</h1>
+        </header>
+        
+        <form action="/articles" method="get">
+            <div class="form-group">
+                <label for="keyword">Keyword:</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter keyword for news search">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+        <div class="latest-articles mt-4">
+            <ul class="article-list row">
+                <% if(articles) { %>
+                    <% articles.forEach(article => { %>
+                        <div class="col-md-6 mb-4">
+                            <div class="article-item">
+                                <% if(article.urlToImage) { %>
+                                    <img src="<%= article.urlToImage %>" alt="Article Image" class="img-fluid">
+                                <% } %>
+                                <div class="article-content">
+                                    <h2><a href="<%= article.url %>" target="_blank" class="article-link">
+                                        <%= article.title %>
+                                    </a></h2>
+                                    <p><%= article.description %></p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+
+    <%- include('layouts/footer'); -%> 
+</body>
+</html>

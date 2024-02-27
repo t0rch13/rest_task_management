@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const taskRoutes = require('./routes/taskRoutes.js');
 const authRoutes = require('./routes/authRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
+const apiRoutes = require('./routes/apiRoutes.js');
 const uri =  'mongodb+srv://batyrhan2211:Batyr1337@cluster0.4myjt5o.mongodb.net/task_management?retryWrites=true&w=majority';
 
 
@@ -35,6 +36,7 @@ mongoose.connect(uri).then(() => {
 app.use('/', taskRoutes); // taskRoutes
 app.use('/', authRoutes); // authRoutes
 app.use('/', adminRoutes); // adminRoutes
+app.use('/', apiRoutes); // apiRoutes
 
 
 const PORT = process.env.PORT || 3000;

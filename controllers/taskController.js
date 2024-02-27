@@ -3,13 +3,15 @@ const Task = require("../models/Task.js");
 // Index controller
 exports.index = async (req, res) => {
     const lang = req.cookies.lang || "en";
+    iconsArray = ['airplane.png', 'chat.png', 'checkmark.png', 'home.png', 'key.png', 'mail.png', 'phone.png', 'pin.png',
+     'question-mark.png', 'upload.png', 'us-dollar.png','x-mark.png'];
     try {
         if (req.session.user) {
             const userTasks = await Task.find({ user: req.session.user._id });
-            res.render('index', { user: req.session.user, tasks: userTasks, lang, trimDeadline });
+            res.render('index', { user: req.session.user, tasks: userTasks, lang, trimDeadline, icons: iconsArray });
         } else {
 
-            res.render('index', { user: null, tasks: [], lang, trimDeadline });
+            res.render('index', { user: null, tasks: [], lang, trimDeadline, icons: iconsArray});
         }
     } catch (error) {
         console.error('Error in index controller:', error);
@@ -23,7 +25,7 @@ exports.add = async (req, res) => {
             return res.redirect('/login');
         }
 
-        const { description, deadline_date, deadline_time } = req.body;
+        const { description, deadline_date, deadline_time, selectedIcon1, selectedIcon2, selectedIcon3 } = req.body;
 
         // Concatenate date and time into one datetime string
         const deadline = `${deadline_date} ${deadline_time}`;
@@ -33,6 +35,7 @@ exports.add = async (req, res) => {
             description: description,
             deadline: deadline,
             status: 'not_completed', // Default status is not completed
+            icons: [selectedIcon1, selectedIcon2, selectedIcon3],
             user: req.session.user._id 
         });
 
