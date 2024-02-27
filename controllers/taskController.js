@@ -1,4 +1,4 @@
-const Task = require("../models/task.js");
+const Task = require("../models/Task.js");
 
 // Index controller
 exports.index = async (req, res) => {
