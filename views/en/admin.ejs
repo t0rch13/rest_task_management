@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../layouts/head'); -%> 
+    <title>Admin Panel - Task Management</title>
+</head>
+
+<%- include('../layouts/en/navbar'); -%> 
+
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Admin Panel - Task Management WebApp</h1>
+        </header>
+        <% if (user && user.is_admin) { %>
+            <!-- Render list of users dynamically -->
+            <ul class="list-group users mx-auto text-light">
+                <% users.forEach(user => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div> 
+                                <span><strong>Username:</strong> <%= user.username %> <button type="button" class="btn btn-primary" onclick="editUsername('<%= user._id %>')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button></span>
+                            </div>
+                            <div> 
+                                <span><strong>Email:</strong> <%= user.email %> <button type="button" class="btn btn-primary" onclick="editEmail('<%= user._id %>')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button></span>
+                                
+                            </div>
+                        </div>
+                        <div>
+                            <div> 
+                                <span><strong>Created At:</strong> <%= trimDeadline(user.created_at) %></span>
+                            </div>
+                            <div> 
+                                <span><strong>Updated At:</strong> <%= trimDeadline(user.updated_at) %></span>
+                            </div>
+                        </div>
+                    </li>
+
+                <% }); %>
+            </ul>
+
+        <% } else { %>
+            <!-- Show message if user is not logged in as admin -->
+            <div class="text-center">
+                <h4>You do not have permission to access this page.</h4>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Add Bootstrap modal markup for editing username -->
+<div class="modal fade" id="editUsernameModal" tabindex="-1" aria-labelledby="editUsernameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUsernameModalLabel">Edit Username</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form to edit username -->
+                <form id="editUsernameForm" action="/admin/editUsername" method="post">
+                    <!-- Hidden input field to store user_id -->
+                    <input type="hidden" id="userIdUsername" name="userId">
+                    <div class="mb-3">
+                        <label for="newUsername" class="form-label">New Username:</label>
+                        <input type="text" class="form-control" id="newUsername" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap modal markup for editing email -->
+<div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmailModalLabel">Edit Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form to edit email -->
+                <form id="editEmailForm" action="/admin/editEmail" method="post">
+                    <!-- Hidden input field to store user_id -->
+                    <input type="hidden" id="userIdEmail" name="userId">
+                    <div class="mb-3">
+                        <label for="newEmail" class="form-label">New Email:</label>
+                        <input type="email" class="form-control" id="newEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    function editUsername(userId) {
+        $('#userIdUsername').val(userId); // Set the value of hidden input field with user_id
+        $('#editUsernameModal').modal('show');
+    }
+
+    function editEmail(userId) {
+        $('#userIdEmail').val(userId); // Set the value of hidden input field with user_id
+        $('#editEmailModal').modal('show');
+    }
+
+    $(document).ready(function() {
+        $('#editUsernameForm').submit(function(event) {
+            event.preventDefault();
+            // Your form submission logic
+        });
+
+        $('#editEmailForm').submit(function(event) {
+            event.preventDefault();
+            // Your form submission logic
+        });
+    });
+</script>
+
+
+    <%- include('../layouts/en/footer'); -%> 
+
+    
+</body>
+</html>

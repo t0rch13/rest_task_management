@@ -4,34 +4,44 @@ const User = require('../models/User.js');
 // Get Admin
 exports.getAdmin = async (req, res) => {
     const lang = req.cookies.lang || "en";
+    const users = await User.find();
     try {
-        res.render('admin', { user: req.session.user, lang });
+        res.render('en/admin', { user: req.session.user, trimDeadline, users});
     } catch (error) {
         console.error('Error in getAdmin controller:', error);
     }
 };
 
-// Get Users
-exports.getUsers = async (req, res) => {
-    const lang = req.cookies.lang || "en";
+// Post Edit Username
+exports.postEditUsername = async (req, res, next) => {
     try {
-        const users = await User.find();
-        res.render('users', { user: req.session.user, users, lang });
-    } catch (error) {
-        console.error('Error in getUsers controller:', error);
+        const user = await User.findById(req.body.userId);
+        if (!user) {
+            // Handle the situation when the user is not found
+            console.error('No user found with the given ID');
+            return res.status(404).send('No user found');
+        }
+        user.username = req.body.username;
+        await user.save();
+        res.redirect('/admin');
+    } catch (err) {
+        console.error('Error in postEditUsername controller:', err);
+        next(err);
     }
 };
 
-// Get User
-exports.getUser = async (req, res) => {
-    const lang = req.cookies.lang || "en";
+// Post Edit Email
+exports.postEditEmail = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        res.render('user', { user: req.session.user, user, lang });
+        const user = await User.findById(req.body.id); 
+        user.email = req.body.newEmail;
+        await user.save();
+        res.redirect('/admin');
     } catch (error) {
-        console.error('Error in getUser controller:', error);
-    }
-};
+        console.error('Error in postEditEmail controller:', error);
+    } 
+}
+
 
 // Delete User
 exports.deleteUser = async (req, res) => {
@@ -43,35 +53,9 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
-// Get Edit User
-exports.getEditUser = async (req, res) => {
-    const lang = req.cookies.lang || "en";
-    try {
-        const user = await User.findById(req.params.id);
-        res.render('editUser', { user: req.session.user, user, lang });
-    } catch (error) {
-        console.error('Error in getEditUser controller:', error);
-    }
-}
 
-// Post Edit User
-exports.postEditUser = async (req, res) => {
-    const { username, email, password, confirmPassword } = req.body;
-    const lang = req.cookies.lang || "en";
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.render('editUser', { user: req.session.user, errors: errors.array(), lang });
-    }
-
-    try {
-        const user = await User.findById(req.params.id);
-        user.username = username;
-        user.email = email;
-        user.password = password;
-        await user.save();
-        res.redirect('/admin/users');
-    } catch (error) {
-        console.error('Error in postEditUser controller:', error);
-    }
+function trimDeadline(deadlineString) {
+    const deadline = new Date(deadlineString);
+    return deadline.toLocaleString('en-US', { timeZone: 'Asia/Almaty', timeZoneName: 'short' });
 }
