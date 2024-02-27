@@ -1,0 +1,133 @@
+body {
+    background: linear-gradient(to bottom, #1a7a46, #3baf6f);
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 23px;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="text"]:focus,
+input[type="password"],
+input[type="password"]:focus,
+input[type="email"],
+input[type="email"]:focus {
+    color: #fff;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.todos li {
+    background: #3baf6f;
+    color: #fff;
+}
+
+.delete {
+    cursor: pointer;
+}
+
+.filtered {
+    display: none !important;
+}
+
+.btn:hover {
+    background: #3baf6f;
+    color: #fff;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-radius: 13px 13px;
+    transition: 0.8s;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #3baf6f; /* Navbar background color */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #fff; /* Navbar brand text color */
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    color: #fff; /* Navbar link text color */
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 0.75); /* Navbar link hover text color */
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5); /* Navbar toggler border color */
+}
+
+.navbar-toggler-icon {
+    background-color: #fff; /* Navbar toggler icon color */
+}
+        
+.login-btn {
+    background-color: #fff;
+    color: #3baf6f;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #3baf6f;
+    color: #fff;
+}
+
+.register-btn {
+    background-color: #fff;
+    color: #3baf6f;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #3baf6f;
+    color: #fff;
+}
+
+.addTask-btn {
+    background-color: #fff;
+    color: #3baf6f;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.addTask-btn:hover {
+    background-color: #3baf6f;
+    color: #fff;
+}
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('layouts/head'); -%> 
+    <title>Task Management - Register</title>
+</head>
+<%- include('layouts/navbar'); -%> 
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Task Management WebApp</h1>
+            <h2 class="mb-4">Register</h2>
+        </header>
+
+        <form action="/register" method="post" class="register-form">
+            <input class="form-control" type="text" name="username" placeholder="Username">
+            <input class="form-control" type="email" name="email" placeholder="Email">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+            <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password">
+            <div class="text-center">
+                <button class="btn register-btn" type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+    <%- include('layouts/footer'); -%> 
+</body>
+</html>

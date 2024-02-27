@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('layouts/head'); -%> 
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <title>Task Management</title>
+</head>
+
+<%- include('layouts/navbar'); -%> 
+
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Task Management WebApp</h1>
+        </header>
+        <% if (user) { %>
+        
+            
+            <!-- Render user tasks dynamically -->
+            <ul class="list-group todos mx-auto text-light delete">
+                <% tasks.forEach(task => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><%= task.description %></span>
+                        <span>Deadline: <%= trimDeadline(task.deadline) %></span> <!-- Display trimmed deadline -->
+                        <span>Status: <%= task.status %></span> <!-- Display status -->
+                        <div>
+                            <button class="btn btn-success complete-task" data-task-id="<%= task._id %>">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-success delete-task" data-task-id="<%= task._id %>">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+
+
+        
+        
+            
+            <div class="form-container">
+                <!-- Add form to add new task with date and time pickers for deadline -->
+                <form action="/" method="post" class="add text-center my-4" id="addTaskForm">
+                    <label class="text-light">Add a new task...</label>
+                    <input class="form-control m-auto" type="text" name="description" placeholder="Task Name" required />
+                    <br />
+                    <!-- Date picker for selecting task deadline -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="datepicker" name="deadline_date" placeholder="Select Date" aria-describedby="datepicker-addon" required />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="datepicker-addon"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                    <!-- Time picker for selecting task deadline -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="timepicker" name="deadline_time" placeholder="Select Time" aria-describedby="timepicker-addon" required />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="timepicker-addon"><i class="far fa-clock"></i></span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn addTask-btn" type="submit">Add Task</button>
+                    </div>
+                </form>
+            </div>
+            
+        <% } else { %>
+            <!-- Show message if user is not logged in -->
+            <div class="text-center">
+                <h4>Welcome to the Task Management Web App. Here you can add and track the completion of tasks, receive notifications by email. Please Log in or Register to continue. </h4>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/script.js"></script>
+
+    
+    <%- include('layouts/footer'); -%> 
+</body>
+</html>
