@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const User = require("../models/User.js");
 const validateRegistration = require('../middleware/validateRegistration');
+const bcrypt = require('bcryptjs');
 
   
 // Get Login 
@@ -31,7 +32,7 @@ exports.postLogin = async(req, res) => {
                 return res.render('ru/login', { user: req.session.user, error: 'Invalid username or password' });
             }
         }
-        const isMatch = await password===user.password;
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             if(lang === "en") { 
@@ -65,7 +66,7 @@ exports.postRegister = async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
     const lang = req.cookies.lang || "en";
 
-    const errors = validationResult(req);
+    const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
         if(lang === "en") { 
             return res.render('en/register', { user: req.session.user, errors: errors.array() });
@@ -85,8 +86,11 @@ exports.postRegister = async (req, res) => {
             }
         }
 
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
         // Create a new user
-        user = new User({ username, email, password });
+        user = new User({ username, email, password: hashedPassword });
         await user.save();
 
         res.redirect('/login'); 
