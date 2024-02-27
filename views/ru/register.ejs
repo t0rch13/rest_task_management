@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <%- include('../layouts/head'); -%> 
+    <title>Управление задачами - Регистрация</title>
+</head>
+<%- include('../layouts/ru/navbar'); -%> 
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Веб-приложение управления задачами</h1>
+            <h2 class="mb-4">Регистрация</h2>
+        </header>
+
+        <form action="/register" method="post" class="register-form">
+            <input class="form-control" type="text" name="username" placeholder="Имя пользователя">
+            <input class="form-control" type="email" name="email" placeholder="Электронная почта">
+            <input class="form-control" type="password" name="password" placeholder="Пароль">
+            <input class="form-control" type="password" name="confirmPassword" placeholder="Подтверждение пароля">
+            <div class="text-center">
+                <button class="btn register-btn" type="submit">Регистрация</button>
+            </div>
+        </form>
+    </div>
+    <script src="/js/lang.js"></script>
+    <%- include('../layouts/ru/footer'); -%> 
+</body>
+</html>

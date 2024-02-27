@@ -8,10 +8,18 @@ exports.index = async (req, res) => {
     try {
         if (req.session.user) {
             const userTasks = await Task.find({ user: req.session.user._id });
-            res.render('index', { user: req.session.user, tasks: userTasks, lang, trimDeadline, icons: iconsArray });
+            if (lang === "en") {
+                res.render('en/index', { user: req.session.user, tasks: userTasks, trimDeadline, icons: iconsArray });
+            } else {
+                res.render('ru/index', { user: req.session.user, tasks: userTasks, trimDeadline, icons: iconsArray });
+            }
+            
         } else {
-
-            res.render('index', { user: null, tasks: [], lang, trimDeadline, icons: iconsArray});
+            if (lang === "en") {
+                res.render('en/index', { user: null, tasks: [], trimDeadline, icons: iconsArray});
+            } else { 
+                res.render('ru/index', { user: null, tasks: [], trimDeadline, icons: iconsArray});
+            }
         }
     } catch (error) {
         console.error('Error in index controller:', error);

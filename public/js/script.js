@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     // Initialize Bootstrap Datepicker for Date
     $('#datepicker').datetimepicker({
         format: 'YYYY-MM-DD',

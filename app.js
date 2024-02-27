@@ -10,13 +10,10 @@ const adminRoutes = require('./routes/adminRoutes.js');
 const apiRoutes = require('./routes/apiRoutes.js');
 const uri =  'mongodb+srv://batyrhan2211:Batyr1337@cluster0.4myjt5o.mongodb.net/task_management?retryWrites=true&w=majority';
 
-
-
-
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true })); // Add URL-encoded body parser
 app.use(cookieParser());
 app.use(session({
   secret: 'secretBatyr', 
@@ -32,12 +29,16 @@ mongoose.connect(uri).then(() => {
   console.error("Error connecting to MongoDB:", error);
 });
 
-
 app.use('/', taskRoutes); // taskRoutes
 app.use('/', authRoutes); // authRoutes
 app.use('/', adminRoutes); // adminRoutes
 app.use('/', apiRoutes); // apiRoutes
 
+app.post("/switch-language", (req, res) => {
+  const { lang } = req.body;
+  res.cookie("lang", lang, { httpOnly: true });
+  res.sendStatus(200);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

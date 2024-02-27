@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <%- include('../layouts/head'); -%> 
+    <!-- Bootstrap Datepicker CSS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <title>Управление задачами</title>
+</head>
+
+<%- include('../layouts/ru/navbar'); -%> 
+
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Веб-приложение управления задачами</h1>
+        </header>
+        <% if (user) { %>
+            
+            <!-- Render user tasks dynamically -->
+            <ul class="list-group todos mx-auto text-light delete">
+                <% tasks.forEach(task => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <!-- Display carousel with chosen icons -->
+                        <div id="carousel<%= task._id %>" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <% task.icons.forEach((icon, index) => { %>
+                                    <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                        <img src="/img/icons/<%= icon %>" class="d-block w-48" alt="<%= icon %>">
+                                    </div>
+                                <% }); %>
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel<%= task._id %>" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Предыдущий</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel<%= task._id %>" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Следующий</span>
+                            </a>
+                        </div>
+                        <!-- End carousel -->
+                        <span><%= task.description %></span>
+                        <span>Дедлайн: <%= trimDeadline(task.deadline) %></span> <!-- Display trimmed deadline -->
+                        <span>Статус: <%= task.status %></span> <!-- Display status -->
+                        <div>
+                            <button class="btn btn-success complete-task" data-task-id="<%= task._id %>">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-success delete-task" data-task-id="<%= task._id %>">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+
+            
+            <div class="form-container">
+                <!-- Add form to add new task with date and time pickers for deadline -->
+                <form action="/" method="post" class="add text-center my-4" id="addTaskForm">
+                    <label class="text-light">Добавить новую задачу...</label>
+                    <input class="form-control m-auto" type="text" name="description" placeholder="Название задачи" required />
+                    <br />
+                    <label class="text-light">Установить дедлайн</label>
+                    <!-- Date picker for selecting task deadline -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="datepicker-addon"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="datepicker" name="deadline_date" placeholder="Выберите дату" aria-describedby="datepicker-addon" required />
+                    </div>
+                    <!-- Time picker for selecting task deadline -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="timepicker-addon"><i class="far fa-clock"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="timepicker" name="deadline_time" placeholder="Выберите время" aria-describedby="timepicker-addon" required />
+                    </div>
+                    <button type="button" class="btn btn-primary mb-3  " data-toggle="modal" data-target="#iconModal">
+                        Выбрать значки
+                    </button>
+            
+                    <!-- Hidden input fields to store selected icons -->
+                    <input type="hidden" name="selectedIcon1" id="selectedIcon1">
+                    <input type="hidden" name="selectedIcon2" id="selectedIcon2">
+                    <input type="hidden" name="selectedIcon3" id="selectedIcon3">
+
+                    <div class="text-center">
+                        <button class="btn addTask-btn" type="submit">Добавить задачу</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal for selecting icons -->
+            <div class="modal fade" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="iconModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" style="background-color: #3baf6f">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="iconModalLabel">Выбрать значки</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="background-color: #3baf6f">
+                            <!-- List of icons for selection -->
+                            <div class="row">
+                                <% icons.forEach(icon => { %>
+                                    <div class="col-4">
+                                        <img src="/img/icons/<%= icon %>" alt="<%= icon %>" class="img-fluid icon m-1" data-icon="<%= icon %>">
+                                    </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary" id="selectIconsBtn">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        <% } else { %>
+            <!-- Show message if user is not logged in -->
+            <div class="text-center">
+                <h4>Добро пожаловать в веб-приложение управления задачами. Здесь вы можете добавлять и отслеживать выполнение задач,
+                     получать уведомления по электронной почте и искать полезные статьи. Пожалуйста, войдите или зарегистрируйтесь, чтобы продолжить. </h4>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/lang.js"></script>
+
+    
+    <%- include('../layouts/ru/footer'); -%> 
+</body>
+</html>

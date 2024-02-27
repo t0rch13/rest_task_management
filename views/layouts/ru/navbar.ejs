@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Управление задачами</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/articles">Статьи</a>
+                </li>
+                <% if (!user) { %>
+                    <li>
+                        <a class="nav-link" href="/login">Вход</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/register">Регистрация</a>
+                    </li>
+                <% } else { %>
+                    <li>
+                        <a class="nav-link" href="/admin">Админ</a>
+                    </li>
+                    <a href="#" class="btn btn-success rounded-3"><%= user.username %></a>&nbsp;&nbsp;
+                    <a href="/logout" class="btn btn-secondary">Выход</a>
+                <% } %>
+                <!-- Language switcher -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="switchLanguage('en')">English</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="switchLanguage('ru')">Русский</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

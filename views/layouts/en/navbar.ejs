@@ -15,18 +15,25 @@
                 </li>
                 <% if (!user) { %>
                     <li>
-                        <a class="nav-link" href="/login" >Login</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="/register" >Register</a>
+                        <a class="nav-link" href="/register">Register</a>
                     </li>
                 <% } else { %>
                     <li>
-                        <a class="nav-link" href="/admin" >Admin</a>
+                        <a class="nav-link" href="/admin">Admin</a>
                     </li>
                     <a href="#" class="btn btn-success rounded-3"><%= user.username %></a>&nbsp;&nbsp;
                     <a href="/logout" class="btn btn-secondary">Logout</a>
                 <% } %>
+                <!-- Language switcher -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="switchLanguage('en')">English</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="switchLanguage('ru')">Русский</a>
+                </li>
             </ul>
         </div>
     </div>

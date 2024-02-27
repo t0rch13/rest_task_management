@@ -7,7 +7,11 @@ const validateRegistration = require('../middleware/validateRegistration');
 exports.getLogin =  async (req, res) => {
     const lang = req.cookies.lang || "en";
     try {
-        res.render('login', {user: req.session.user, lang});
+        if(lang === "en") { 
+            res.render('en/login', {user: req.session.user});
+        } else {
+            res.render('ru/login', {user: req.session.user});
+        }
     } catch (error) {
         console.error('Error in getLogin controller:', error);
     }
@@ -21,12 +25,20 @@ exports.postLogin = async(req, res) => {
     try {
         const user = await User.findOne({ username });
         if (!user) {
-            return res.render('login', { user: req.session.user , error: 'Invalid username or password', lang });
+            if(lang === "en") { 
+                return res.render('en/login', { user: req.session.user, error: 'Invalid username or password' });
+            } else {    
+                return res.render('ru/login', { user: req.session.user, error: 'Invalid username or password' });
+            }
         }
         const isMatch = await password===user.password;
 
         if (!isMatch) {
-            return res.render('login', { user: req.session.user, error: 'Invalid username or password', lang });
+            if(lang === "en") { 
+                return res.render('en/login', { user: req.session.user, error: 'Invalid username or password' });
+            } else {    
+                return res.render('ru/login', { user: req.session.user, error: 'Invalid username or password' });
+            }
         } 
 
         req.session.user = user;
@@ -39,7 +51,11 @@ exports.postLogin = async(req, res) => {
 exports.getRegister = async (req, res) => {
     const lang = req.cookies.lang || "en";
     try {
-        res.render('register', {user: req.session.user, lang});
+        if(lang === "en") { 
+            res.render('en/register', {user: req.session.user});
+        } else {
+            res.render('ru/register', {user: req.session.user});
+        }
     } catch (error) {
         console.error('Error in getRegister controller:', error);
     }
@@ -51,14 +67,22 @@ exports.postRegister = async (req, res) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('register', { user: req.session.user, errors: errors.array(), lang });
+        if(lang === "en") { 
+            return res.render('en/register', { user: req.session.user, errors: errors.array() });
+        } else {    
+            return res.render('ru/register', { user: req.session.user, errors: errors.array() });
+        }
     }
 
     try {
         // Check if the username is already taken
         let user = await User.findOne({ username });
         if (user) {
-            return res.render('register', { user: req.session.user, error: 'Username is already taken', lang });
+            if (lang === "en") {
+                return res.render('en/register', { user: req.session.user, error: 'Username is already taken', lang });
+            } else { 
+                return res.render('ru/register', { user: req.session.user, error: 'Имя пользователя уже занято', lang });
+            }
         }
 
         // Create a new user

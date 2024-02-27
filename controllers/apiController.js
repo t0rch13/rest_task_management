@@ -19,7 +19,11 @@ exports.getArticles = async (req, res) => {
     const keyword = req.query.keyword || lang === "en" ? "Time Management" : "Tайм-менеджмент";
     try {
         const articles = await getArticlesByKeyword(keyword, lang);
-        res.render('articles', {user: req.session.user, lang, articles: articles, keyword: keyword});
+        if (lang === "en") {
+            res.render('en/articles', {user: req.session.user, articles: articles, keyword: keyword});
+        } else {
+            res.render('ru/articles', {user: req.session.user, articles: articles, keyword: keyword});
+        }
     } catch (error) {
         console.error('Error getting articles:', error);
         res.status(500).json({ error: 'There was an error getting the articles' });
@@ -27,10 +31,10 @@ exports.getArticles = async (req, res) => {
 };
 
 
-exports.sendMail = async (task) =>{
+async function sendMail(task) {
     try {
-        const user = await User.findById(task.user); // Find user by task and get user's email
-        if (!user) {
+        const userInstance = await User.findById(task.user);
+        if (!userInstance) {
             throw new Error('User not found for the task.');
         }
 
@@ -49,35 +53,34 @@ exports.sendMail = async (task) =>{
 
         const mailOptions = {
             from: 'TASK MANAGEMENT WEB APP 📧 <batyrhan22.11@gmail.com>',
-            to: user.email, // Send email to user's email address
+            to: userInstance.email,
             subject: `TASK MANAGEMENT WEB APP 📧: Your deadline for task ${task.description} has been expired`,
             text: `TASK MANAGEMENT WEB APP 📧: Your deadline for task ${task.description} has been expired`,
-            html: `TASK MANAGEMENT WEB APP 📧: Your deadline for task ${task.description} has been expired`
-        };
+            html: `<p>TASK MANAGEMENT WEB APP 📧: Your deadline for task <strong>${task.description}</strong> has been expired.</p>`
+        }; 
 
         const result = await transport.sendMail(mailOptions);
         return result;
     } catch (error) {
+        console.error('Error sending email:', error);
         return error;
     }
 }
 
-// Scheduled task to check for expired deadlines
 cron.schedule('* * * * *', async () => {
     try {
         const currentDate = new Date();
         const expiredTasks = await Task.find({ deadline: { $lt: currentDate }, status: 'not_completed' });
 
         for (const task of expiredTasks) {
-            await exports.sendMail(task); // Pass task to sendMail function
-            task.status = 'expired'; // Update task status to "expired"
+            await sendMail(task);
+            task.status = 'expired';
             await task.save(); 
         }
     } catch (error) {
         console.error('Error executing scheduled task:', error);
     }
 });
-
 
 
 // Function to get articles by keyword from the newsAPI
