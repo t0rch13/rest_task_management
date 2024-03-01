@@ -37,4 +37,11 @@ Welcome to the Task Management WebApp! This is a Task Management WebApp that all
 - Username: Batyr
 - Password: 123
 
+### Additional info
+- Use existing email address for the registration 
+- Use current date and time to test email notifications
+- Don't forget to choose icons(small png images) for each task before creation
+- You will receive email notification in 2 minutes from deadline expiration time, so you should wait a little bit
+
+
 

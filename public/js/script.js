@@ -33,22 +33,25 @@ $(document).ready(function() {
     });
 
      // Function to handle icon selection
-    $('#selectIconsBtn').click(function() {
-        // Get the selected icons
-        var selectedIcons = $('.icon.selected').toArray().map(icon => $(icon).data('icon'));
-
-        // Update the hidden input fields with selected icons
-        $('#selectedIcon1').val(selectedIcons[0] || '');
-        $('#selectedIcon2').val(selectedIcons[1] || '');
-        $('#selectedIcon3').val(selectedIcons[2] || '');
-
-        // Close the modal
-        $('#iconModal').modal('hide');
-    });
+    var selectedIcons = [];
 
     // Function to toggle icon selection
-    $('.icon').click(function() {
-        $(this).toggleClass('selected');
+    $(".icon").click(function() {
+        $(this).toggleClass("selected");
+    });
+
+    // Function to handle the selection of icons
+    $("#selectIconsBtn").click(function() {
+        selectedIcons = [];
+        $(".icon.selected").each(function() {
+            selectedIcons.push($(this).data("icon"));
+        });
+        // Display selected icons in the hidden input fields
+        $("#selectedIcon1").val(selectedIcons[0]);
+        $("#selectedIcon2").val(selectedIcons[1]);
+        $("#selectedIcon3").val(selectedIcons[2]);
+        // Close the modal
+        $("#iconModal").modal("hide");
     });
 
     // Handle form submission
