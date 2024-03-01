@@ -89,9 +89,17 @@ exports.delete = async (req, res) => {
 
 //Util function to trim deadline
 function trimDeadline(deadlineString) {
+    // Convert the deadline string to a Date object
     const deadline = new Date(deadlineString);
+    console.log("====================================");
+    console.log(deadline);
+    // Subtract 5 hours from the deadline
+    deadline.setHours(deadline.getHours() - 5);
+    console.log(deadline);
+    // Return the trimmed deadline in the desired format
     return deadline.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg', timeZoneName: 'short' });
 }
+
 
 
 
