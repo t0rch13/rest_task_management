@@ -59,13 +59,13 @@ $(document).ready(function() {
         // Combine date and time inputs into one timestamp
         var date = $('#datepicker').val();
         var time = $('#timepicker').val();
-        var datetime = moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
-        
-        // Subtract 5 hours from the datetime
-        datetime.subtract(5, 'hours');
+        var datetime = new Date(date + 'T' + time); // Combine date and time into one datetime object
     
-        // Format the datetime to the desired format
-        var formattedDatetime = datetime.format('YYYY-MM-DD HH:mm:ss');
+        // Subtract 5 hours from the datetime
+        datetime.setHours(datetime.getHours() - 5);
+    
+        // Format the datetime to the desired format (YYYY-MM-DD HH:mm:ss)
+        var formattedDatetime = datetime.toISOString().slice(0, 19).replace('T', ' '); // Format to YYYY-MM-DDTHH:mm:ss and then replace 'T' with a space
         
         // Assign the formatted datetime to the hidden input field
         $('#deadline').val(formattedDatetime);
