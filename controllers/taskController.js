@@ -38,10 +38,16 @@ exports.add = async (req, res) => {
         // Concatenate date and time into one datetime string
         const deadline = `${deadline_date} ${deadline_time}`;
 
-        // Create a new task
+        // Create a new Date object from the deadline string
+        let deadlineDateTime = new Date(deadline);
+
+        // Subtract 5 hours from the deadline
+        deadlineDateTime.setHours(deadlineDateTime.getHours() - 5);
+
+        // Create a new task with the adjusted deadline
         const newTask = new Task({
             description: description,
-            deadline: deadline,
+            deadline: deadlineDateTime,
             status: 'not_completed', // Default status is not completed
             icons: [selectedIcon1, selectedIcon2, selectedIcon3],
             user: req.session.user._id 
@@ -91,10 +97,6 @@ exports.delete = async (req, res) => {
 function trimDeadline(deadlineString) {
     // Convert the deadline string to a Date object
     const deadline = new Date(deadlineString);
-    console.log("====================================");
-    console.log(deadline);
-    // Subtract 5 hours from the deadline
-    deadline.setHours(deadline.getHours() - 5);
     console.log(deadline);
     // Return the trimmed deadline in the desired format
     return deadline.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg', timeZoneName: 'short' });
