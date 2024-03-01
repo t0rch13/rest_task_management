@@ -4,7 +4,9 @@ This is a project for the assignment 4 of AITU: Backend course
 
 Welcome to the Task Management WebApp! This is a Task Management WebApp that allows you to write tasks, update tasks' status, receive email notifications about expires deadlines and read interesting articles by keyword. Storing all users and tasks in MongoDB Atlas
 
-## Features
+## Deployed on rest-task-management.onrender.com
+
+### Features
 
 - User registration and authorisation
 - Adding and modifying tasks for each user
@@ -40,7 +42,7 @@ Welcome to the Task Management WebApp! This is a Task Management WebApp that all
 ### Additional info
 - Use existing email address for the registration 
 - Use current date and time to test email notifications
-- Don't forget to choose icons(small png images) for each task before creation
+- Don't forget to choose 3 icons(small png images) for each task before creation
 - You will receive email notification in 2 minutes from deadline expiration time, so you should wait a little bit
 
 

@@ -59,10 +59,18 @@ $(document).ready(function() {
         // Combine date and time inputs into one timestamp
         var date = $('#datepicker').val();
         var time = $('#timepicker').val();
-        var datetime = moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-        // Assign combined datetime to the hidden input field
-        $('#deadline').val(datetime);
+        var datetime = moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
+        
+        // Subtract 5 hours from the datetime
+        datetime.subtract(5, 'hours');
+    
+        // Format the datetime to the desired format
+        var formattedDatetime = datetime.format('YYYY-MM-DD HH:mm:ss');
+        
+        // Assign the formatted datetime to the hidden input field
+        $('#deadline').val(formattedDatetime);
     });
+    
 
     // Handle click event of the complete button
     $('.complete-task').click(function() {
