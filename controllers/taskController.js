@@ -90,7 +90,8 @@ exports.delete = async (req, res) => {
 //Util function to trim deadline
 function trimDeadline(deadlineString) {
     const deadline = new Date(deadlineString);
-    return deadline.toLocaleString('en-US', { timeZone: 'Asia/Almaty', timeZoneName: 'short' });
+    return deadline.toLocaleString('en-US', { timeZone: 'Asia/Yekaterinburg', timeZoneName: 'short' });
 }
+
 
 

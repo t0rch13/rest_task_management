@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru"> <!-- Set language to Russian -->
+<head>
+    <%- include('../layouts/head'); -%> 
+    <title>Редактировать пользователя - Панель администратора</title> <!-- Translate the title -->
+</head>
+
+<%- include('../layouts/ru/navbar'); -%> <!-- Include the Russian version of the navbar -->
+
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Редактировать пользователя - Панель администратора</h1> <!-- Translate the heading -->
+        </header>
+        <% if (user && user.is_admin) { %>
+            <% if (userToEdit) { %>
+                <!-- Render user data dynamically -->
+                <div class="card mx-auto" style="max-width: 500px;">
+                    <div class="card-body">
+                        <h5 class="card-title">ID пользователя: <%= userToEdit._id %></h5> <!-- Translate the label -->
+                        <form id="editUserForm" action="/admin/editUser/<%= userToEdit._id %>" method="POST">
+                            <!-- Add a hidden input field to override the method -->
+                            <input type="hidden" name="_method" value="PUT">
+                        
+                            <!-- Rest of the form -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Имя пользователя</label> <!-- Translate the label -->
+                                <input type="text" class="form-control" id="username" name="username" value="<%= userToEdit.username %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Электронная почта</label> <!-- Translate the label -->
+                                <input type="email" class="form-control" id="email" name="email" value="<%= userToEdit.email %>" required>
+                            </div>
+                            <!-- Checkbox for making/removing admin privileges -->
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" <% if (userToEdit.is_admin) { %> checked <% } %> value="true">
+                                <label class="form-check-label" for="is_admin">Администратор</label> <!-- Translate the label -->
+                            </div>                            
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button> <!-- Translate the button -->
+                            <!-- Button to delete user -->
+                            <input type="hidden" id="userId" name="userId" value="<%= userToEdit._id %>">
+                            <button id="deleteUserBtn" class="btn btn-danger">Удалить пользователя</button> <!-- Translate the button -->
+                        </form>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="text-center">
+                    <h4>Пользователь не найден.</h4> <!-- Translate the message -->
+                </div>
+            <% } %>
+        <% } else { %>
+            <!-- Show message if user is not logged in as admin -->
+            <div class="text-center">
+                <h4>У вас нет разрешения на доступ к этой странице.</h4> <!-- Translate the message -->
+            </div>
+        <% } %>
+    </div>
+
+    <!-- JavaScript code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="/js/editUser.js"></script>
+    <script src="/js/lang.js"></script>
+
+</body>
+</html>

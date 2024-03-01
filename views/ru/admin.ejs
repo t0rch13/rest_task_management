@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%- include('../layouts/head'); -%> 
-    <title>Admin Panel - Task Management</title>
+    <title>Панель администратора - Управление задачами</title>
     <style>
         .password-value {
             font-size: 16px; 
@@ -10,12 +10,12 @@
     </style>
 </head>
 
-<%- include('../layouts/en/navbar'); -%> 
+<%- include('../layouts/ru/navbar'); -%> 
 
 <body>
     <div class="container">
         <header class="text-center text-light my-4">
-            <h1 class="mb-4">Admin Panel - Task Management WebApp</h1>
+            <h1 class="mb-4">Панель администратора - Управление задачами</h1>
         </header>
         <% if (user && user.is_admin) { %>
             <!-- Render list of users dynamically -->
@@ -24,30 +24,30 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <div> 
-                                <span><strong>User ID:</strong> <%= user._id %></span> <!-- Display User ID -->
+                                <span><strong>ID пользователя:</strong> <%= user._id %></span> <!-- Display User ID -->
                             </div>
                             <div> 
-                                <span><strong>Username:</strong> <%= user.username %></span>
+                                <span><strong>Имя пользователя:</strong> <%= user.username %></span>
                             </div>
                             <div> 
-                                <span><strong>Email:</strong> <%= user.email %></span>
+                                <span><strong>Эл.почта:</strong> <%= user.email %></span>
                             </div>
                             <div>
-                                <span><strong>Password:</strong> <span class="password-value"><%= user.password %></span></span>
+                                <span><strong>Пароль:</strong> <span class="password-value"><%= user.password %></span></span>
                             </div>
                             <div> 
-                                <span><strong>Is Admin:</strong> <%= user.is_admin ? 'Yes' : 'No' %></span>
+                                <span><strong>Администратор:</strong> <%= user.is_admin ? 'Да' : 'Нет' %></span>
                             </div>
                         </div>
                         <div>
                             <div> 
-                                <span><strong>Created At:</strong> <%= trimDeadline(user.created_at) %></span>
+                                <span><strong>Дата создания:</strong> <%= trimDeadline(user.created_at) %></span>
                             </div>
                             <div> 
-                                <span><strong>Updated At:</strong> <%= trimDeadline(user.updated_at) %></span>
+                                <span><strong>Дата обновления:</strong> <%= trimDeadline(user.updated_at) %></span>
                             </div>
                             <div> 
-                                <a href="/admin/editUser/<%= user._id %>" class="btn btn-primary">Edit</a> <!-- Edit Button -->
+                                <a href="/admin/editUser/<%= user._id %>" class="btn btn-primary">Редактировать</a> <!-- Edit Button -->
                             </div>
                         </div>
                     </li>
@@ -56,7 +56,7 @@
         <% } else { %>
             <!-- Show message if user is not logged in as admin -->
             <div class="text-center">
-                <h4>You do not have permission to access this page.</h4>
+                <h4>У вас нет разрешения на доступ к этой странице.</h4>
             </div>
         <% } %>
     </div>

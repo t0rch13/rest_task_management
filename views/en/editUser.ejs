@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../layouts/head'); -%> 
+    <title>Edit User - Admin Panel</title>
+</head>
+
+<%- include('../layouts/en/navbar'); -%> 
+
+<body>
+    <div class="container">
+        <header class="text-center text-light my-4">
+            <h1 class="mb-4">Edit User - Admin Panel</h1>
+        </header>
+        <% if (user && user.is_admin) { %>
+            <% if (userToEdit) { %>
+                <!-- Render user data dynamically -->
+                <div class="card mx-auto" style="max-width: 500px;">
+                    <div class="card-body">
+                        <h5 class="card-title">User ID: <%= userToEdit._id %></h5>
+                        <form id="editUserForm" action="/admin/editUser/<%= userToEdit._id %>" method="POST">
+                            <!-- Add a hidden input field to override the method -->
+                            <input type="hidden" name="_method" value="PUT">
+                        
+                            <!-- Rest of the form -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="<%= userToEdit.username %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="<%= userToEdit.email %>" required>
+                            </div>
+                            <!-- Checkbox for making/removing admin privileges -->
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" <% if (userToEdit.is_admin) { %> checked <% } %> value="true">
+                                <label class="form-check-label" for="is_admin">Admin</label>
+                            </div>                            
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <!-- Button to delete user -->
+                            <input type="hidden" id="userId" name="userId" value="<%= userToEdit._id %>">
+                            <button id="deleteUserBtn" class="btn btn-danger">Delete User</button>
+                        </form>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="text-center">
+                    <h4>User not found.</h4>
+                </div>
+            <% } %>
+        <% } else { %>
+            <!-- Show message if user is not logged in as admin -->
+            <div class="text-center">
+                <h4>You do not have permission to access this page.</h4>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- JavaScript code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="/js/editUser.js"></script>
+    <script src="/js/lang.js"></script>
+
+</body>
+</html>

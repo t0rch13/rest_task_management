@@ -5,12 +5,11 @@ const {authenticate} = require('../middleware/authenticate.js');
 const router = express.Router();
 
 router.get('/admin', authenticate, controller.getAdmin);
+router.get('/admin/editUser/:id', authenticate, controller.getEditUser);
 
-router.post('/admin/editUsername', authenticate, controller.postEditUsername);
-router.post('/admin/editEmail', authenticate, controller.postEditEmail);
+router.put('/admin/editUser/:id', authenticate, controller.putEditUser);
 
-
-router.delete('/admin/users/:id/delete', authenticate, controller.deleteUser);
+router.delete('/admin/editUser/:id/delete', authenticate, controller.deleteUser);
 
 
 module.exports = router;

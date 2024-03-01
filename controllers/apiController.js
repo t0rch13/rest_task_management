@@ -16,9 +16,16 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN});
 
 exports.getArticles = async (req, res) => {
     const lang = req.cookies.lang || "en";
-    const keyword = req.query.keyword || lang === "en" ? "Time Management" : "Tайм-менеджмент";
+    let keyword = req.query.keyword;
+    if (!keyword) {
+        if (lang === "en") {
+           keyword = "Time Management";
+        } else {
+            keyword = "Управление временем";
+        }
+    }
     try {
-        const articles = await getArticlesByKeyword(keyword, lang);
+        const articles = await getArticlesByKeyword(keyword);
         if (lang === "en") {
             res.render('en/articles', {user: req.session.user, articles: articles, keyword: keyword});
         } else {
@@ -29,6 +36,16 @@ exports.getArticles = async (req, res) => {
         res.status(500).json({ error: 'There was an error getting the articles' });
     }
 };
+
+exports.postArticles = async (req, res) => {
+    const keyword = req.body.keyword;
+    try {
+       res.redirect(`/articles?keyword=${keyword}`);
+    } catch (error) {
+        console.error('Error searching articles:', error);
+        res.status(500).json({ error: 'There was an error getting the articles' });
+    }
+}
 
 
 async function sendMail(task) {
@@ -71,6 +88,7 @@ cron.schedule('* * * * *', async () => {
     try {
         const currentDate = new Date();
         const expiredTasks = await Task.find({ deadline: { $lt: currentDate }, status: 'not_completed' });
+        console.log('Expired tasks:', expiredTasks);
 
         for (const task of expiredTasks) {
             await sendMail(task);
@@ -85,13 +103,13 @@ cron.schedule('* * * * *', async () => {
 
 // Function to get articles by keyword from the newsAPI
 
-async function getArticlesByKeyword(keyword, lang) {
+async function getArticlesByKeyword(keyword) {
     const fromDate = getFromDate();
     
     let response, data = null;
 
     try {
-        response = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&from=${fromDate}&language=${lang}&sortBy=popularity&apiKey=${NEWS_API_KEY}`);
+        response = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&from=${fromDate}&sortBy=popularity&apiKey=${NEWS_API_KEY}`);
         data = response.data;
     } catch (error){
         console.error(`Error making HTTPS request to newsAPI: ${error.message}`);
